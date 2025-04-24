@@ -70,14 +70,97 @@ button#add-player-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Styling for player input fields */
+.player-name-input {
+  width: 6.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #000;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.player-name-input:focus {
+  border-color: #0f7a0f;
+  background-color: #f9e6c0;
+  border-radius: 4px;
+}
+
+.player-name-input:blur {
+  border-color: transparent;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* Styling for table headers */
+#score-table th {
+  border: 1px solid black;
+  background-color: white;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+/* Styling for table cells */
+#score-table td {
+  border: 1px solid black;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+/* Styling for player input fields */
+.player-name-input {
+  width: 6.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #000;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.player-name-input:focus {
+  border-color: #0f7a0f;
+  background-color: #f9e6c0;
+  border-radius: 4px;
+}
+
+.player-name-input:blur {
+  border-color: transparent;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* Styling for table headers */
+.player-header {
+  border: 1px solid black;
+  background-color: white;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+/* Styling for table cells */
+.player-score-cell {
+  border: 1px solid black;
+  padding: 8px 12px;
+  text-align: left;
+}
+
 /* General styles for the score table */
 #score-table {
   float: left; /* Align the table to the left side */
   border-collapse: collapse; /* Collapse table borders */
   margin-right: 20px; /* Add spacing between the table and other content */
   width: auto; /* Automatically adjust width based on content */
-  min-width: 300px; /* Set a minimum width for the table */
-  max-width: 100%; /* Prevent the table from exceeding the container width */
+  min-width: 600px; /* Set a minimum width for the table */
+  max-width: 80%; /* Prevent the table from exceeding the container width */
   font-size: 16px; /* Set font size for readability */
   background-color: white; /* Set table background color */
 }
