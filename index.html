@@ -1,61 +1,68 @@
+<!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>Yahtzee</title>
-  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;display=swap" rel="stylesheet"/>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yahtzee Game</title>
   <link rel="stylesheet" href="style.css">
- </head>
- <body>
-    <main>
-        <section>
-         <div class="player-names-container">
-          <div class="player-names" id="player-names">
-           <input aria-label="Player 1 name" class="player-name-input" id="player-1" maxlength="10" type="text" value="You"/>
+</head>
+<body>
+  <main>
+    <!-- Player Names Section -->
+    <section>
+      <div id="player-names-container">
+         <!-- Player containers -->
+         <div class="player-container">
+            <span class="player-label">Player 1:</span>
+            <span class="player-value"></span>
           </div>
-          <button id="add-player-btn" title="Add another player" type="button">+ Add Player</button>
-         </div>
-         <table id="score-table" aria-label="Yahtzee score table">
-          <thead>
-           <tr>
+      </div>
+      <button id="add-player-btn" type="button">+ Add Player</button>
+    </section>
+
+    <!-- Scoreboard Section -->
+    <section>
+      <table id="score-table" aria-label="Yahtzee score table">
+        <thead>
+          <tr>
             <th>Rolls</th>
-            <th>You</th>
-           </tr>
-          </thead>
-          <tbody id="score-tbody">
-           <tr><td>Ones</td><td></td>
-           <tr><td>Twos</td><td></td>
-           <tr><td>Threes</td><td></td>
-           <tr><td>Fours</td><td></td>
-           <tr><td>Fives</td><td></td>
-           <tr><td>Sixes</td><td></td>
-           <tr class="thick-border-top"><td>Sum</td><td></td>
-           <tr class="thick-border-bottom"><td>Bonus</td><td></td>
-           <tr><td>Three of a kind</td><td></td>
-           <tr><td>Four of a kind</td><td></td>
-           <tr><td>Full house</td><td></td>
-           <tr><td>Small straight</td><td></td>
-           <tr><td>Large straight</td><td></td>
-           <tr><td>Chance</td><td></td>
-           <tr class="thick-border-top thick-border-bottom"><td>Yahtzee</td><td></td>
-           <tr class="thick-border-top thick-border-bottom"><td>Total score</td><td></td>
-          </tbody>
-         </table>
-        </section>
-        <!-- Right side: Dice images individually bigger -->
-        <section class="right-side">
-         <div class="dice-row" aria-label="Dice showing 2, 6, 3, 5, and 1 dots">
-          <img src="Terninger/one.JPG" width="64" height="64"/>
-          <img  src="Terninger/two.JPG" width="64" height="64"/>
-          <img  src="Terninger/three.JPG" width="64" height="64"/>
-          <img  src="Terninger/four.JPG" width="64" height="64"/>
-          <img  src="Terninger/five.JPG" width="64" height="64"/>
-          <img src="Terninger/six.JPG" width="64" height="64">
-         </div>
-         <button id="roll-btn" type="button" aria-label="Roll dice">Roll dice</button>
-         <div class="info-text" aria-live="polite">Click "Roll Dice" to start.</div>
-        </section>
-       </main>
-       <script src="script.js"></script>
- </body>
+          </tr>
+        </thead>
+        <tbody id="score-tbody">
+          <tr><td>Ones</td></tr>
+          <tr><td>Twos</td></tr>
+          <tr><td>Threes</td></tr>
+          <tr><td>Fours</td></tr>
+          <tr><td>Fives</td></tr>
+          <tr><td>Sixes</td></tr>
+          <tr class="thick-border-top"><td>Sum</td></tr>
+          <tr class="thick-border-bottom"><td>Bonus</td></tr>
+          <tr><td>Three of a kind</td></tr>
+          <tr><td>Four of a kind</td></tr>
+          <tr><td>Full house</td></tr>
+          <tr><td>Small straight</td></tr>
+          <tr><td>Large straight</td></tr>
+          <tr><td>Chance</td></tr>
+          <tr class="thick-border-top thick-border-bottom"><td>Yahtzee</td></tr>
+          <tr class="thick-border-top thick-border-bottom"><td>Total score</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Dice Section -->
+    <section class="right-side">
+      <div class="dice-row" aria-label="Dice">
+        <img src="Terninger/one.JPG" width="64" height="64" alt="Dice showing 1" />
+        <img src="Terninger/two.JPG" width="64" height="64" alt="Dice showing 2" />
+        <img src="Terninger/three.JPG" width="64" height="64" alt="Dice showing 3" />
+        <img src="Terninger/four.JPG" width="64" height="64" alt="Dice showing 4" />
+        <img src="Terninger/five.JPG" width="64" height="64" alt="Dice showing 5" />
+        <img src="Terninger/six.JPG" width="64" height="64" alt="Dice showing 6" />
+      </div>
+      <button id="roll-btn" type="button">Roll Dice</button>
+      <div class="info-text" aria-live="polite">Click "Roll Dice" to start.</div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
 </html>

@@ -1,128 +1,161 @@
-// Utility function to add thick borders to a row
-function setThickBorders(row, top = false, bottom = false) {
-  if (top) row.classList.add('thick-border-top');
-  if (bottom) row.classList.add('thick-border-bottom');
-}
-
-// Track if game started
-let gameStarted = false;
-
-// Elements
-const rollBtn = document.getElementById('roll-btn');
+// Select DOM elements
+const playerNamesDiv = document.getElementById('player-names-container');
 const addPlayerBtn = document.getElementById('add-player-btn');
+const scoreTableHead = document.querySelector('#score-table thead tr');
 const scoreTbody = document.getElementById('score-tbody');
-const playerNamesDiv = document.getElementById('player-names');
 
-// Function to disable/enable player name inputs based on gameStarted
-function updatePlayerInputs() {
-  const inputs = playerNamesDiv.querySelectorAll('input.player-name-input');
-  inputs.forEach(input => {
-    input.disabled = gameStarted;
-    if (gameStarted) {
-      input.style.borderBottom = 'none';
-      input.style.backgroundColor = 'transparent';
-      input.style.color = '#000';
-      input.style.fontWeight = '600';
-      input.style.textAlign = 'center';
-    } else {
-      input.style.borderBottom = '1px solid transparent';
-      input.style.backgroundColor = 'transparent';
-      input.style.color = '#000';
-      input.style.fontWeight = '600';
-      input.style.textAlign = 'center';
-    }
+let gameStarted = false; // Track if the game has started
+let playerCount = 2; // Start with 2 players by default
+
+// Function to initialize existing players (Player 1 and Player 2)
+function initializeExistingPlayers() {
+  const existingPlayers = playerNamesDiv.querySelectorAll('.player-container');
+  existingPlayers.forEach((playerContainer, index) => {
+    const playerLabel = playerContainer.querySelector('.player-label');
+    const playerValue = playerContainer.querySelector('.player-value');
+
+    // Create an input field for the player name
+    const playerInput = document.createElement('input');
+    playerInput.type = 'text';
+    playerInput.maxLength = 10;
+    playerInput.value = `Player ${index + 1}`; // Default name
+    playerInput.className = 'player-name-input';
+    playerInput.setAttribute('aria-label', `Player ${index + 1} name`);
+
+    // Style the input field
+    playerInput.style.width = '6.5rem';
+    playerInput.style.textAlign = 'center';
+    playerInput.style.fontWeight = '600';
+    playerInput.style.fontSize = '1rem';
+    playerInput.style.color = '#000';
+    playerInput.style.backgroundColor = 'transparent';
+    playerInput.style.border = 'none';
+    playerInput.style.borderBottom = '1px solid transparent';
+    playerInput.style.outline = 'none';
+    playerInput.style.transition = 'border-color 0.2s';
+
+    // Add focus and blur event listeners for styling
+    playerInput.addEventListener('focus', () => {
+      playerInput.style.borderColor = '#0f7a0f';
+      playerInput.style.backgroundColor = '#f9e6c0';
+      playerInput.style.borderRadius = '4px';
+    });
+    playerInput.addEventListener('blur', () => {
+      playerInput.style.borderColor = 'transparent';
+      playerInput.style.backgroundColor = 'transparent';
+      playerInput.style.borderRadius = '0';
+    });
+
+    // Replace the player value span with the input field
+    playerValue.replaceWith(playerInput);
+
+    // Add a column to the score table for the player
+    const newTh = document.createElement('th');
+    newTh.style.border = '1px solid black';
+    newTh.style.backgroundColor = 'white';
+    newTh.style.padding = '8px 12px';
+    newTh.textContent = playerInput.value;
+    scoreTableHead.appendChild(newTh);
+
+    // Add a new cell to each row in the score table body
+    const rows = scoreTbody.querySelectorAll('tr');
+    rows.forEach((row) => {
+      const newCell = document.createElement('td');
+      newCell.style.border = '1px solid black';
+      newCell.style.padding = '8px 12px';
+      newCell.textContent = ''; // Default score
+      row.appendChild(newCell);
+    });
+
+    // Update the column header dynamically when the player name changes
+    playerInput.addEventListener('input', () => {
+      newTh.textContent = playerInput.value || `Player ${index + 1}`;
+    });
   });
 }
 
-// Add player function
+// Function to add a new player
 function addPlayer() {
-  if (gameStarted) return; // no adding after game start
+  if (gameStarted) return; // Prevent adding players after the game has started
 
-  // Count current players
-  const currentPlayers = playerNamesDiv.querySelectorAll('input.player-name-input').length;
-  if (currentPlayers >= 6) return; // limit max players to 6 for layout
+  if (playerCount >= 10) return; // Limit the maximum number of players to 6
 
-  // Create new input for player name
-  const newInput = document.createElement('input');
-  newInput.type = 'text';
-  newInput.maxLength = 10;
-  newInput.value = `Player${currentPlayers + 1}`;
-  newInput.className = 'player-name-input';
-  newInput.setAttribute('aria-label', `Player ${currentPlayers + 1} name`);
-  newInput.style.width = '6.5rem';
-  newInput.style.textAlign = 'center';
-  newInput.style.fontWeight = '600';
-  newInput.style.fontSize = '1rem';
-  newInput.style.color = '#000';
-  newInput.style.backgroundColor = 'transparent';
-  newInput.style.border = 'none';
-  newInput.style.borderBottom = '1px solid transparent';
-  newInput.style.outline = 'none';
-  newInput.style.transition = 'border-color 0.2s';
-  newInput.addEventListener('focus', () => {
-    newInput.style.borderColor = '#0f7a0f';
-    newInput.style.backgroundColor = '#f9e6c0';
-    newInput.style.borderRadius = '4px';
+  playerCount++;
+
+  // Create a new player container
+  const newPlayerContainer = document.createElement('div');
+  newPlayerContainer.className = 'player-container';
+
+  // Create a label for the new player
+  const newPlayerLabel = document.createElement('span');
+  newPlayerLabel.className = 'player-label';
+  newPlayerLabel.textContent = `Player ${playerCount}:`;
+
+  // Create an input field for the new player name
+  const newPlayerInput = document.createElement('input');
+  newPlayerInput.type = 'text';
+  newPlayerInput.maxLength = 10;
+  newPlayerInput.value = `Player ${playerCount}`; // Default name
+  newPlayerInput.className = 'player-name-input';
+  newPlayerInput.setAttribute('aria-label', `Player ${playerCount} name`);
+
+  // Style the input field
+  newPlayerInput.style.width = '6.5rem';
+  newPlayerInput.style.textAlign = 'center';
+  newPlayerInput.style.fontWeight = '600';
+  newPlayerInput.style.fontSize = '1rem';
+  newPlayerInput.style.color = '#000';
+  newPlayerInput.style.backgroundColor = 'transparent';
+  newPlayerInput.style.border = 'none';
+  newPlayerInput.style.borderBottom = '1px solid transparent';
+  newPlayerInput.style.outline = 'none';
+  newPlayerInput.style.transition = 'border-color 0.2s';
+
+  // Add focus and blur event listeners for styling
+  newPlayerInput.addEventListener('focus', () => {
+    newPlayerInput.style.borderColor = '#0f7a0f';
+    newPlayerInput.style.backgroundColor = '#f9e6c0';
+    newPlayerInput.style.borderRadius = '4px';
   });
-  newInput.addEventListener('blur', () => {
-    newInput.style.borderColor = 'transparent';
-    newInput.style.backgroundColor = 'transparent';
-    newInput.style.borderRadius = '0';
+  newPlayerInput.addEventListener('blur', () => {
+    newPlayerInput.style.borderColor = 'transparent';
+    newPlayerInput.style.backgroundColor = 'transparent';
+    newPlayerInput.style.borderRadius = '0';
   });
 
-  // Append new input
-  playerNamesDiv.appendChild(newInput);
+  // Append the label and input to the new player container
+  newPlayerContainer.appendChild(newPlayerLabel);
+  newPlayerContainer.appendChild(newPlayerInput);
 
-  // Add new column to score table for the new player
-  const headerRow = scoreTbody.parentElement.querySelector('thead tr');
+  // Append the new player container to the player names container
+  playerNamesDiv.appendChild(newPlayerContainer);
+
+  // Add a column to the score table for the new player
   const newTh = document.createElement('th');
   newTh.style.border = '1px solid black';
   newTh.style.backgroundColor = 'white';
   newTh.style.padding = '8px 12px';
-  newTh.textContent = newInput.value;
-  headerRow.appendChild(newTh);
+  newTh.textContent = newPlayerInput.value;
+  scoreTableHead.appendChild(newTh);
 
-  // Add empty cells for each row in tbody
+  // Add a new cell to each row in the score table body
   const rows = scoreTbody.querySelectorAll('tr');
-  rows.forEach((row, index) => {
-    const newTd = document.createElement('td');
-    newTd.style.border = '1px solid black';
-    newTd.style.padding = '8px 12px';
-    // Alternate background color for new player column
-    if ((headerRow.children.length - 1) % 2 === 0) {
-      newTd.style.backgroundColor = 'white';
-    } else {
-      newTd.style.backgroundColor = '#f9e6c0';
-    }
-    row.appendChild(newTd);
+  rows.forEach((row) => {
+    const newCell = document.createElement('td');
+    newCell.style.border = '1px solid black';
+    newCell.style.padding = '8px 12px';
+    newCell.textContent = '0'; // Default score
+    row.appendChild(newCell);
   });
 
-  // Update input's aria-label and header text on input change
-  newInput.addEventListener('input', () => {
-    newTh.textContent = newInput.value || `Player${currentPlayers + 1}`;
+  // Update the column header dynamically when the player name changes
+  newPlayerInput.addEventListener('input', () => {
+    newTh.textContent = newPlayerInput.value || `Player ${playerCount}`;
   });
 }
 
-// On add player button click
+// Initialize existing players
+initializeExistingPlayers();
+
+// Add event listener to the "Add Player" button
 addPlayerBtn.addEventListener('click', addPlayer);
-
-// On roll dice button click, mark game started and disable editing
-rollBtn.addEventListener('click', () => {
-  if (!gameStarted) {
-    gameStarted = true;
-    updatePlayerInputs();
-    addPlayerBtn.disabled = true;
-  }
-});
-
-// Initialize inputs enabled
-updatePlayerInputs();
-
-// Set thick borders on relevant rows (already done via classes in HTML, but just in case)
-const rows = scoreTbody.querySelectorAll('tr');
-rows.forEach(row => {
-  const text = row.cells[0].textContent.trim().toLowerCase();
-  if (text === 'sum') setThickBorders(row, true, false);
-  if (text === 'bonus') setThickBorders(row, false, true);
-  if (text === 'yahtzee' || text === 'total score') setThickBorders(row, true, true);
-});
