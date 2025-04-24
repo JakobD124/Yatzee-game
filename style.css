@@ -1,0 +1,160 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #065006;
+    margin: 0;
+    padding: 24px;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  main {
+    display: flex;
+    gap: 48px;
+    max-width: 1120px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  /* Player names container */
+  .player-names-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+  .player-names {
+    display: flex;
+    gap: 8px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background: white;
+    padding: 4px 8px;
+  }
+  .player-name-input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #000;
+    width: 6.5rem;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .player-name-input:focus {
+    border-color: #0f7a0f;
+    background-color: #f9e6c0;
+    border-radius: 4px;
+  }
+  button#add-player-btn {
+    background-color: #0f7a0f;
+    color: white;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border: none;
+    user-select: none;
+    transition: background-color 0.2s;
+  }
+  button#add-player-btn:hover:not(:disabled) {
+    background-color: #0b5a0b;
+  }
+  button#add-player-btn:active:not(:disabled) {
+    background-color: #0a4a0a;
+  }
+  button#add-player-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  /* Score table */
+  table {
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 600px;
+    font-size: 18px;
+    background: white;
+  }
+  th, td {
+    border: 1px solid black;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  thead th {
+    background: white;
+  }
+  tbody td:nth-child(odd) {
+    background: white;
+  }
+  tbody td:nth-child(even) {
+    background: #f9e6c0;
+  }
+  /* Thicker borders for sum, bonus, total score rows */
+  .thick-border-top {
+    border-top-width: 4px !important;
+  }
+  .thick-border-bottom {
+    border-bottom-width: 4px !important;
+  }
+  /* Right side container */
+  .right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    flex: 1 1 300px;
+  }
+  .dice-row {
+    display: flex;
+    gap: 24px;
+  }
+  .dice-row img {
+    width: 64px;
+    height: 64px;
+  }
+  button#roll-btn {
+    background-color: #0f7a0f;
+    color: white;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 1.25rem;
+    cursor: pointer;
+    border: none;
+    user-select: none;
+    transition: background-color 0.2s;
+  }
+  button#roll-btn:hover {
+    background-color: #0b5a0b;
+  }
+  button#roll-btn:active {
+    background-color: #0a4a0a;
+  }
+  .info-text {
+    background-color: #f9e6c0;
+    color: #4a2a00;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 14px;
+    user-select: none;
+    text-align: center;
+    min-width: 180px;
+  }
+  /* Responsive */
+  @media (max-width: 768px) {
+    main {
+      flex-direction: column;
+      align-items: center;
+    }
+    table {
+      width: 100%;
+      max-width: 600px;
+    }
+    .right-side {
+      width: 100%;
+      flex: none;
+    }
+  }
