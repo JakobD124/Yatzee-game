@@ -10,14 +10,19 @@
   <main>
     <!-- Player Names Section -->
     <section>
-      <div id="player-names-container">
-         <!-- Player containers -->
-         <div class="player-container">
-            <span class="player-label"></span>
-            <span class="player-value"></span>
-          </div>
-      </div>
+        <table id="player-list-table" aria-label="PLayer List">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>name</th>
+                </tr>
+            </thead>
+            <tbody id="player-names-container">
+                <!-- Player rows will be added here -->
+            </tbody>
+        </table>
       <button id="add-player-btn" type="button">+ Add Player</button>
+      <button id="delete-player-btn" type="button">- delete newest Player</button>
     </section>
 
     <!-- Scoreboard Section -->
