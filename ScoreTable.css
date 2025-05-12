@@ -25,6 +25,23 @@
     font-weight: bold;
   }
 
+/* Highlight the active cell with a black border */
+.current-player-column {
+  background-color: #ff0000;
+  border: 5px solid black; /* Add a black border */
+  box-sizing: border-box;
+}
+
+  /* Highlight the current player's column */
+.current-player-column {
+  background-color: #ffeb3b; 
+}
+
+/* Highlight the current round's row */
+.current-round-row {
+  background-color: #ffeb3b; 
+}
+
   /* Alternate row Coloring/Shading */
   #score-table tr:nth-child(even) {
     background-color: #f5f5f5;
