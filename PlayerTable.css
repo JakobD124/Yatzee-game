@@ -1,0 +1,84 @@
+
+/* === Player Table === */
+#player-controls {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 250px; 
+    height: 100%; 
+    background-color: #f4f4f4; 
+    padding: 16px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2); 
+    overflow-y: auto;
+    border-radius: 8px;
+    color: #222;
+    box-sizing: border-box;
+  }
+  /* Wrapper for the player table */
+  #player-list-table {
+    border: 2px solid #0f7a0f; 
+    border-radius: 8px;
+    padding: 8px; 
+    background-color: #188218;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  #player-controls h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #0f7a0f;
+    text-align: center;
+  }
+  
+  #player-controls table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    color: #222;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  #player-controls th,
+  #player-controls td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  
+  #player-controls th {
+    background-color: #0f7a0f;
+    color: white;
+    font-weight: bold;
+  }
+  /* Add Player Button */
+  #add-player-btn {
+    background-color: #0f7a0f; 
+    color: white;
+  }
+  
+  #add-player-btn:hover:not(:disabled) {
+    background-color: #0f7a0f;
+  }
+  
+  #add-player-btn:active:not(:disabled) {
+    background-color: #1e8449; 
+  }
+  
+  /* Delete Player Button */
+  #delete-player-btn {
+    background-color: #f3331e; 
+    color: white;
+  }
+  
+  #delete-player-btn:hover:not(:disabled) {
+    background-color: #f3331e;
+  }
+  
+  #delete-player-btn:active:not(:disabled) {
+    background-color: #922b21;
+  }
+  
