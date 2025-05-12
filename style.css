@@ -82,13 +82,32 @@ main {
   color: white;
   font-weight: bold;
 }
-
-#player-controls tr:nth-child(even) {
-  background-color: #f5f5f5;
+/* Add Player Button */
+#add-player-btn {
+  background-color: #0f7a0f; 
+  color: white;
 }
 
-#player-controls tr:nth-child(odd) {
-  background-color: #ffffff;
+#add-player-btn:hover:not(:disabled) {
+  background-color: #0f7a0f;
+}
+
+#add-player-btn:active:not(:disabled) {
+  background-color: #1e8449; 
+}
+
+/* Delete Player Button */
+#delete-player-btn {
+  background-color: #f3331e; 
+  color: white;
+}
+
+#delete-player-btn:hover:not(:disabled) {
+  background-color: #f3331e;
+}
+
+#delete-player-btn:active:not(:disabled) {
+  background-color: #922b21;
 }
 
 /* === Score Table === */
@@ -175,6 +194,16 @@ main {
 #roll-btn:active:not(:disabled) {
   background-color: #1a5276;
 }
+
+/* === Result of roll === */
+#result {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0f7a0f;
+  margin-top: 16px;
+  text-align: center;
+}
+
 
 /* === Info Text === */
 .info-text {
