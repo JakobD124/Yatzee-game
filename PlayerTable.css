@@ -1,10 +1,6 @@
 
 /* === Player Table === */
 #player-controls {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 250px; 
     height: 100%; 
     background-color: #f4f4f4; 
     padding: 16px;
@@ -21,6 +17,9 @@
     padding: 8px; 
     background-color: #188218;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    top: 100;
+    left: 100px;
   }
   
   #player-controls h2 {
@@ -42,18 +41,7 @@
     overflow: hidden;
   }
   
-  #player-controls th,
-  #player-controls td {
-    border: 1px solid #ccc;
-    padding: 8px 12px;
-    text-align: left;
-  }
-  
-  #player-controls th {
-    background-color: #0f7a0f;
-    color: white;
-    font-weight: bold;
-  }
+
   /* Add Player Button */
   #add-player-btn {
     background-color: #0f7a0f; 

@@ -14,6 +14,7 @@ body {
   justify-content: center;
   align-items: flex-start;
   padding: 0;
+  width: 100%;
 }
 
 /* === Main Layout === */
@@ -22,7 +23,7 @@ main {
   justify-content: space-between; 
   align-items: flex-start; 
   width: 100%;
-  max-width: 1200px; 
+  max-width: 1300px;
   padding: 16px;
   gap: 16px;
 }

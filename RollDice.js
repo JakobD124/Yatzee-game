@@ -4,9 +4,9 @@ const diceImages = document.querySelectorAll('.dice-row img');
 const scoreTable = document.getElementById('score-table');
 
 // Variables to track the game state
-let currentPlayer = 1; // Start with Player 1
-let rollsLeft = 3; // Each player gets 3 rolls
-let selectedDice = []; // Track selected dice
+let currentPlayer = 1; 
+let rollsLeft = 3; 
+let selectedDice = []; 
 
 // Function to generate a random number between 1 and 6
 function getRandomDiceNumber() {
@@ -23,14 +23,14 @@ function rollDice() {
   diceImages.forEach((dice, index) => {
     // Only roll dice that are not selected
     if (!selectedDice.includes(index)) {
-      const randomNumber = getRandomDiceNumber(); // Get a random number between 1 and 6
-      dice.src = `Terninger/${randomNumber}.JPG`; // Update the dice image source
-      dice.alt = `Dice showing ${randomNumber}`; // Update the alt text for accessibility
-      dice.dataset.value = randomNumber; // Store the dice value in a data attribute
+      const randomNumber = getRandomDiceNumber();
+      dice.src = `Terninger/${randomNumber}.JPG`;
+      dice.alt = `Dice showing ${randomNumber}`;
+      dice.dataset.value = randomNumber; 
     }
   });
 
-  rollsLeft--; // Decrease the number of rolls left
+  rollsLeft--;
 }
 
 // Function to select or deselect a dice
