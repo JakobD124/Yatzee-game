@@ -32,15 +32,14 @@
   box-sizing: border-box;
 }
 
-  /* Highlight the current player's column */
 .current-player-column {
-  background-color: #ffeb3b; 
+  background-color: #d0f0d0 !important;
 }
 
-/* Highlight the current round's row */
 .current-round-row {
-  background-color: #ffeb3b; 
+  background-color: #f0e68c !important;
 }
+
 
   /* Alternate row Coloring/Shading */
   #score-table tr:nth-child(even) {

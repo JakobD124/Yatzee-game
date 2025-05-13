@@ -62,21 +62,23 @@
     <!-- Dice Section -->
     <section class="Dice-side">
       <div class="dice-row" aria-label="Dice">
-        <img src="Terninger/1.JPG" width="64" height="64" alt="Dice showing 1" />
-        <img src="Terninger/2.JPG" width="64" height="64" alt="Dice showing 2" />
-        <img src="Terninger/3.JPG" width="64" height="64" alt="Dice showing 3" />
-        <img src="Terninger/4.JPG" width="64" height="64" alt="Dice showing 4" />
-        <img src="Terninger/5.JPG" width="64" height="64" alt="Dice showing 5" />
-
+        <img class="dice" src="Terninger/1.JPG" width="64" height="64" alt="Dice showing 1" data-value="1" />
+        <img class="dice" src="Terninger/2.JPG" width="64" height="64" alt="Dice showing 2" data-value="2" />
+        <img class="dice" src="Terninger/3.JPG" width="64" height="64" alt="Dice showing 3" data-value="3" />
+        <img class="dice" src="Terninger/4.JPG" width="64" height="64" alt="Dice showing 4" data-value="4" />
+        <img class="dice" src="Terninger/5.JPG" width="64" height="64" alt="Dice showing 5" data-value="5" />
+        <img class="dice" src="Terninger/6.JPG" alt="Dice showing 6" width="64" height="64" data-value="6" />
       </div>
       <button id="roll-btn" type="button">Roll Dice</button>
       <button id="next-player-btn" type="button">Next Player</button>
       <div class="info-text" aria-live="polite">Click "Roll Dice" to start.</div> 
     </section>
+    <section>
+      <button id="restart-game-btn" type="button" style="display: none;">Restart Game</button>
+    </section>
   </main>
-  <script src="script.js"></script>
-  <script src="Dice.js"></script>
-  <script src="PLayer.js"></script>
-  <script src="finnishedscreen.js"></script>
+  <script src="PLayer.js" type="module"></script>
+<script src="Dice-Game-logic.js" type="module"></script>
+<script src="Dice-Game-UI.js" type="module"></script>
 </body>
 </html>

@@ -1,96 +1,108 @@
-// Select DOM elements
+import { moveToNextPlayer, checkIfGameFinished } from './Dice-Game-logic.js';
+
+// DOM elements
 const playerNamesDiv = document.getElementById('player-names-container');
 const addPlayerBtn = document.getElementById('add-player-btn');
 const deletePlayerBtn = document.getElementById('delete-player-btn');
 const scoreTableHead = document.querySelector('#score-table thead tr');
 const scoreTbody = document.getElementById('score-tbody');
 
-let playerCount = 0; // Start with 0 players
-let gameStarted = false; // Tracks whether the game has started
+let playerCount = 0;
+let gameStarted = false;
 
-// Function to add a new player
+// --- Add Player ---
 function addPlayer() {
     if (gameStarted) {
-        alert("You cannot add new players after the game has started!");
+        alert("You cannot add players after the game has started!");
         return;
     }
 
-    if (playerCount >= 6) return; // Limit the maximum number of players to 6
+    if (playerCount >= 6) return; // Limit to 6 players
 
-    playerCount++; // Increment the player count
+    playerCount++; // Increment player count
 
-    // Create a new row for the player
+    // Player name row
     const newRow = document.createElement('tr');
     newRow.id = `player-${playerCount}`;
 
-    // Create the "Player" cell
     const playerCell = document.createElement('td');
     playerCell.textContent = `Player ${playerCount}`;
     playerCell.className = 'player-label';
 
-    // Create the "Name" cell with an input field
     const nameCell = document.createElement('td');
     const nameInput = document.createElement('input');
     nameInput.type = 'text';
     nameInput.maxLength = 10;
-    nameInput.value = `Player ${playerCount}`; // Default name
+    nameInput.value = `Player ${playerCount}`;
     nameInput.className = 'player-name-input';
     nameInput.setAttribute('aria-label', `Player ${playerCount} name`);
     nameCell.appendChild(nameInput);
 
-    // Append cells to the row
     newRow.appendChild(playerCell);
     newRow.appendChild(nameCell);
+    playerNamesDiv.appendChild(newRow);
 
-    // Append the row to the player list table
-    document.getElementById('player-names-container').appendChild(newRow);
-
-    // Add a column to the score table for the new player
+    // Add score table column
     const newTh = document.createElement('th');
-    newTh.textContent = nameInput.value; // Initialize with the default name
-    newTh.className = `player-header player-${playerCount}-header`; // Use CSS class for styling
-    newTh.dataset.playerId = playerCount; // Add a data attribute for easy identification
+    newTh.textContent = nameInput.value;
+    newTh.className = `player-header player-${playerCount}-header`;
+    newTh.dataset.playerId = playerCount;
     scoreTableHead.appendChild(newTh);
 
-    // Add a new cell to each row in the score table body
+    // Add cells to each row in score body
     const rows = scoreTbody.querySelectorAll('tr');
-    rows.forEach((row) => {
+    rows.forEach(row => {
         const newCell = document.createElement('td');
-        newCell.textContent = ''; // Default score
-        newCell.className = `player-score-cell player-${playerCount}-cell`; // Use CSS class for styling
-        newCell.dataset.playerId = playerCount; // Add a data attribute for easy identification
+        newCell.textContent = '';
+        newCell.className = `player-score-cell player-${playerCount}-cell`;
+        newCell.dataset.playerId = playerCount;
         row.appendChild(newCell);
     });
 
-    // Update the column header dynamically when the player name changes
+    // Live update header on name change
     nameInput.addEventListener('input', () => {
         newTh.textContent = nameInput.value || `Player ${playerCount}`;
     });
 }
-  // Function to delete the newest player
-function deleteNewestPlayer() {
-    if (playerCount === 0) return; // No players to delete
-  
-    // Find the newest player container
-    const newestPlayerContainer = document.getElementById(`player-${playerCount}`);
-    if (newestPlayerContainer) newestPlayerContainer.remove();
-  
-    // Remove the corresponding column header
-    const newestPlayerHeader = scoreTableHead.querySelector(`.player-${playerCount}-header`);
-    if (newestPlayerHeader) newestPlayerHeader.remove();
-  
-    // Remove the corresponding cells in the score table body
-    const newestPlayerCells = scoreTbody.querySelectorAll(`.player-${playerCount}-cell`);
-    newestPlayerCells.forEach((cell) => cell.remove());
-  
-    // Decrement the player count
-    playerCount--;
-  }
 
-  
-// Attach event listeners to the buttons
+// --- Delete Player ---
+function deleteNewestPlayer() {
+    if (gameStarted) {
+        alert("You cannot delete players after the game has started!");
+        return;
+    }
+
+    if (playerCount <= 1) return; // Prevent deleting the last player
+
+    const playerRow = document.getElementById(`player-${playerCount}`);
+    if (playerRow) playerRow.remove();
+
+    const header = scoreTableHead.querySelector(`.player-${playerCount}-header`);
+    if (header) header.remove();
+
+    const scoreCells = scoreTbody.querySelectorAll(`.player-${playerCount}-cell`);
+    scoreCells.forEach(cell => cell.remove());
+
+    playerCount--; // Decrement player count
+
+    // Ensure at least one player remains
+    ensureMinimumPlayers();
+}
+
+// --- Ensure Minimum Players ---
+function ensureMinimumPlayers() {
+    if (playerCount == 0) {
+        addPlayer(); // Add a player if none exist
+    }
+}
+
+// --- Initialization ---
+document.addEventListener('DOMContentLoaded', () => {
+    ensureMinimumPlayers(); // Ensure at least 1 player on load
+});
+
 addPlayerBtn.addEventListener('click', addPlayer);
 deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
 
-// Initialize the first player when the page loads
-addPlayer();
+// Exports
+export { addPlayer, deleteNewestPlayer, ensureMinimumPlayers, playerCount, gameStarted};

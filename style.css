@@ -35,6 +35,27 @@ main {
   margin-top: -12px;
 }
 
+/* Restart Game Button */
+#restart-game-btn {
+  margin-top: 16px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #0f7a0f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: none; /* Initially hidden */
+}
+
+#restart-game-btn:hover {
+  background-color: #0c5c0c;
+}
+
+#restart-game-btn:active {
+  background-color: #094509;
+}
+
 /* === Responsive Design === */
 @media (max-width: 768px) {
   main {
