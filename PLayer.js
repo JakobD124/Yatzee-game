@@ -1,4 +1,5 @@
-import { moveToNextPlayer, checkIfGameFinished } from './Dice-Game-logic.js';
+import { moveToNextPlayer, checkIfGameFinished, calculateScoreForCurrentRound, updateSumAndBonus, updateTotalScore, calculateLowerSectionScore } from './Dice-Game-logic.js';
+import { gameStarted } from './Dice-Game-UI.js';
 
 // DOM elements
 const playerNamesDiv = document.getElementById('player-names-container');
@@ -8,7 +9,13 @@ const scoreTableHead = document.querySelector('#score-table thead tr');
 const scoreTbody = document.getElementById('score-tbody');
 
 let playerCount = 0;
-let gameStarted = false;
+
+function updatePlayerCountDisplay() {
+    const playerCountDisplay = document.getElementById('player-count-display');
+    if (playerCountDisplay) {
+        playerCountDisplay.textContent = `Players: ${playerCount}`;
+    }
+}
 
 // --- Add Player ---
 function addPlayer() {
@@ -20,6 +27,7 @@ function addPlayer() {
     if (playerCount >= 6) return; // Limit to 6 players
 
     playerCount++; // Increment player count
+    updatePlayerCountDisplay();
 
     // Player name row
     const newRow = document.createElement('tr');
@@ -84,6 +92,7 @@ function deleteNewestPlayer() {
     scoreCells.forEach(cell => cell.remove());
 
     playerCount--; // Decrement player count
+    updatePlayerCountDisplay();
 
     // Ensure at least one player remains
     ensureMinimumPlayers();
@@ -105,4 +114,4 @@ addPlayerBtn.addEventListener('click', addPlayer);
 deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
 
 // Exports
-export { addPlayer, deleteNewestPlayer, ensureMinimumPlayers, playerCount, gameStarted};
+export { addPlayer, deleteNewestPlayer, ensureMinimumPlayers, playerCount, gameStarted, scoreTbody };

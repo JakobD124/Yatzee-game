@@ -1,5 +1,5 @@
 // --- dice-game-ui.js ---
-import { playerCount, gameStarted, ensureMinimumPlayers, addPlayer, deleteNewestPlayer} from './PLayer.js';
+import { playerCount, ensureMinimumPlayers, addPlayer, deleteNewestPlayer } from './Player.js';
 import { moveToNextPlayer, checkIfGameFinished } from './Dice-Game-logic.js';
 // DOM Elements
 const rollDiceButton = document.getElementById('roll-btn');
@@ -70,14 +70,14 @@ function highlightCurrentPlayerAndRound() {
   const allCells = scoreTbody.querySelectorAll('td');
   const allRows = scoreTbody.querySelectorAll('tr');
 
-  allCells.forEach(cell => cell.classList.remove('current-player-column'));
-  allRows.forEach(row => row.classList.remove('current-round-row'));
+  allCells.forEach(cell => cell.classList.remove('active-player-column'));
+  allRows.forEach(row => row.classList.remove('active-round-row'));
 
   const roundRow = scoreTbody.querySelector(`tr:nth-child(${currentRound})`);
-  if (roundRow) roundRow.classList.add('current-round-row');
+  if (roundRow) roundRow.classList.add('active-round-row');
 
   const columnCells = scoreTbody.querySelectorAll(`.player-${currentPlayer}-cell`);
-  columnCells.forEach(cell => cell.classList.add('current-player-column'));
+  columnCells.forEach(cell => cell.classList.add('active-player-column'));
 }
 
 // Reset
@@ -99,11 +99,12 @@ function resetGame() {
     // Ensure at least one player is added after reset
     ensureMinimumPlayers();
 
-    diceImages.forEach(dice => {
-        dice.src = 'Terninger/1.JPG';
-        dice.alt = 'Dice showing 1';
+    diceImages.forEach((dice, index) => {
+        const value = index + 1;
+        dice.src = `Terninger/${value}.JPG`;
+        dice.alt = `Dice showing ${value}`;
         dice.style.border = 'none';
-        dice.dataset.value = '1';
+        dice.dataset.value = value.toString();
     });
 
     highlightCurrentPlayerAndRound();
@@ -117,4 +118,4 @@ document.addEventListener('DOMContentLoaded', highlightCurrentPlayerAndRound);
 addPlayerBtn.addEventListener('click', addPlayer);
 deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
 
-export {gameStarted};
+export { gameStarted, restartButton, resetGame, currentPlayer, currentRound, rollsLeft, selectedDice, diceImages };
