@@ -1,5 +1,6 @@
 import * as UI from './Dice-Game-UI.js';
-import { getPlayerCount } from './Player.js';
+import {diceImages} from './Dice-Game-UI.js';
+import { getPlayerCount } from './PLayer.js';
 
 // Constants
 const ROW_SUM = 7;
@@ -10,31 +11,28 @@ const scoreTbody = document.querySelector('#score-table tbody');
 
 // Function to move to the next player
 function moveToNextPlayer() {
-  calculateScoreForCurrentRound();
+    calculateScoreForCurrentRound();
 
-  UI.currentPlayer++;
+    UI.setCurrentPlayer(UI.gameState.currentPlayer + 1);
 
-  const playerCount = getPlayerCount();
-  if (UI.currentPlayer > playerCount) {
-    UI.currentPlayer = 1;
-    UI.currentRound++;
-  }
+    if (UI.gameState.currentPlayer > getPlayerCount()) {
+        UI.setCurrentPlayer(1);
+        UI.gameState.currentRound++;
+    }
 
-  // Skip bonus and sum row
-  if (UI.currentRound === ROW_SUM || UI.currentRound === ROW_BONUS) {
-    UI.currentRound = ROW_ONE_PAIR;
-  }
+    if (UI.gameState.currentRound === ROW_SUM || UI.gameState.currentRound === ROW_BONUS) {
+        UI.gameState.currentRound = ROW_ONE_PAIR;
+    }
 
-  if (UI.currentRound === ROW_TOTAL_SCORE) {
-    endGame();
-  }
+    if (UI.gameState.currentRound === ROW_TOTAL_SCORE) {
+        endGame();
+    }
 
-  UI.rollsLeft = 3;
-  UI.selectedDice = [];
-  UI.diceImages.forEach(dice => dice.style.border = 'none');
+    UI.gameState.rollsLeft = 3;
+    UI.gameState.selectedDice = [];
 
-  highlightCurrentPlayerAndRound();
-  checkIfGameFinished();
+    highlightCurrentPlayerAndRound();
+    checkIfGameFinished();
 }
 
 function calculateScoreForCurrentRound() {
@@ -42,13 +40,13 @@ function calculateScoreForCurrentRound() {
   const target = UI.currentRound;
   const score = diceValues.reduce((acc, val) => val === target ? acc + val : acc, 0);
 
-  const scoreCell = scoreTbody.querySelector(`tr:nth-child(${UI.currentRound}) .player-${UI.currentPlayer}-cell`);
+  const scoreCell = scoreTbody.querySelector(`tr:nth-child(${UI.gameState.currentRound}) .player-${UI.gameState.currentPlayer}-cell`);
   if (scoreCell) scoreCell.textContent = score;
 }
 
 function updateSumAndBonus() {
-  const playerCount = getPlayerCount();
-  for (let pid = 1; pid <= playerCount; pid++) {
+  const PlayerCount = getPlayerCount();
+  for (let pid = 1; pid <= PlayerCount; pid++) {
     const playerCells = scoreTbody.querySelectorAll(`.player-${pid}-cell`);
     let sum = 0;
 
@@ -133,7 +131,7 @@ function checkIfGameFinished() {
   const allFilled = [...allCells].every(cell => cell.textContent !== '');
 
   if (allFilled) {
-    const playerCount = getPlayerCount();
+    const playerCount = PlayerCount();
     for (let pid = 1; pid <= playerCount; pid++) updateTotalScore(pid, true);
     displayRestartButton();
   }
@@ -153,10 +151,10 @@ function highlightCurrentPlayerAndRound() {
   allCells.forEach(cell => cell.classList.remove('current-player-column'));
   allRows.forEach(row => row.classList.remove('current-round-row'));
 
-  const roundRow = scoreTbody.querySelector(`tr:nth-child(${UI.currentRound})`);
+  const roundRow = scoreTbody.querySelector(`tr:nth-child(${UI.gameState.currentRound})`);
   if (roundRow) roundRow.classList.add('current-round-row');
 
-  const columnCells = scoreTbody.querySelectorAll(`.player-${UI.currentPlayer}-cell`);
+  const columnCells = scoreTbody.querySelectorAll(`.player-${UI.gameState.currentPlayer}-cell`);
   columnCells.forEach(cell => cell.classList.add('current-player-column'));
 }
 
