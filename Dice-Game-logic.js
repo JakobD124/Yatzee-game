@@ -3,8 +3,8 @@ import { currentPlayer, currentRound, rollsLeft, selectedDice, diceImages, resta
 // Constants
 const ROW_SUM = 7;
 const ROW_BONUS = 8;
-const ROW_TOTAL_SCORE = 18;
 const ROW_ONE_PAIR = 9;
+const ROW_TOTAL_SCORE = 18;
 const scoreTbody = document.querySelector('#score-table tbody');
 
 // Function to move to the next player
@@ -23,11 +23,13 @@ function moveToNextPlayer() {
     currentRound = ROW_ONE_PAIR;
   }
 
+  if (currentRound === ROW_TOTAL_SCORE) {
+    endGame();
+  }
+
   rollsLeft = 3;
   selectedDice = [];
-
-  // Reset dice border
-  diceImages.forEach(dice => (dice.style.border = 'none'));
+  diceImages.forEach(dice => dice.style.border = 'none');
 
   highlightCurrentPlayerAndRound();
   checkIfGameFinished();

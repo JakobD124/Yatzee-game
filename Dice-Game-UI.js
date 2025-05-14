@@ -9,17 +9,21 @@ const scoreTable = document.getElementById('score-table');
 const addPlayerBtn = document.getElementById('add-player-btn');
 const deletePlayerBtn = document.getElementById('delete-player-btn');
 const restartButton = document.getElementById('restart-game-btn');
+const nextPlayerBtn = document.getElementById('next-player-btn');
 const playerNamesContainer = document.getElementById('player-names-container');
 const scoreTbody = document.getElementById('score-tbody');
 
 // Game State
-let currentPlayer = 0;
+let currentPlayer = 1;
 let currentRound = 1;
 let rollsLeft = 3;
 let selectedDice = [];
 let gameStarted = false;
 addPlayerBtn.disabled = false;
 deletePlayerBtn.disabled = false;
+
+// Event Listeners
+nextPlayerBtn.addEventListener('click', nextPlayer);
 
 // Utility
 const getRandomDiceNumber = () => Math.floor(Math.random() * 6) + 1;
@@ -65,6 +69,22 @@ function toggleDiceSelection(e) {
   }
 }
 
+// Next Player
+function nextPlayer() {
+  currentPlayer++;
+  if (currentPlayer > playerNamesContainer.children.length) {
+    currentPlayer = 1;
+    currentRound++;
+    if (currentRound > scoreTbody.children.length / playerNamesContainer.children.length) {
+      currentRound = 1; // Reset rounds or handle end of game
+    }
+  }
+  console.log(`Current Player: ${currentPlayer}`); // Debugging log
+  rollsLeft = 3;
+  selectedDice = [];
+  highlightCurrentPlayerAndRound();
+}
+
 //highlight current player and round
 function highlightCurrentPlayerAndRound() {
   // Remove existing highlights
@@ -82,7 +102,6 @@ function highlightCurrentPlayerAndRound() {
   const columnCells = scoreTbody.querySelectorAll(`.player-${currentPlayer}-cell`);
   columnCells.forEach(cell => cell.classList.add('current-player-column'));
 }
-
 // Reset
 function resetGame() {
     gameStarted = false;

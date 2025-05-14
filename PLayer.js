@@ -100,7 +100,7 @@ function deleteNewestPlayer() {
 
 // --- Ensure Minimum Players ---
 function ensureMinimumPlayers() {
-    if (playerCount == 0) {
+    if (playerCount === 0) {
         addPlayer(); // Add a player if none exist
     }
 }
@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 addPlayerBtn.addEventListener('click', addPlayer);
 deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
+document.addEventListener('DOMContentLoaded', playerCount);
 
 // Exports
 export { addPlayer, deleteNewestPlayer, ensureMinimumPlayers, playerCount, gameStarted, scoreTbody };
