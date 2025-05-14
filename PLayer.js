@@ -1,5 +1,5 @@
 import { moveToNextPlayer, checkIfGameFinished, calculateScoreForCurrentRound, updateSumAndBonus, updateTotalScore, calculateLowerSectionScore } from './Dice-Game-logic.js';
-import { gameStarted } from './Dice-Game-UI.js';
+import { gameState } from './Dice-Game-UI.js';
 
 // DOM elements
 const playerNamesDiv = document.getElementById('player-names-container');
@@ -8,42 +8,42 @@ const deletePlayerBtn = document.getElementById('delete-player-btn');
 const scoreTableHead = document.querySelector('#score-table thead tr');
 const scoreTbody = document.getElementById('score-tbody');
 
-let playerCount = 0;
+let PlayerCount = 0;
 
 function updatePlayerCountDisplay() {
-    const playerCountDisplay = document.getElementById('player-count-display');
-    if (playerCountDisplay) {
-        playerCountDisplay.textContent = `Players: ${playerCount}`;
+    const PlayerCountDisplay = document.getElementById('player-count-display');
+    if (PlayerCountDisplay) {
+        PlayerCountDisplay.textContent = `Players: ${PlayerCount}`;
     }
 }
 
 // --- Add Player ---
 function addPlayer() {
-    if (gameStarted) {
+    if (gameState.gameStarted) {
         alert("You cannot add players after the game has started!");
         return;
     }
 
-    if (playerCount >= 6) return; // Limit to 6 players
+    if (PlayerCount >= 6) return; // Limit to 6 players
 
-    playerCount++; // Increment player count
+    PlayerCount++; // Increment player count
     updatePlayerCountDisplay();
 
     // Player name row
     const newRow = document.createElement('tr');
-    newRow.id = `player-${playerCount}`;
+    newRow.id = `player-${PlayerCount}`;
 
     const playerCell = document.createElement('td');
-    playerCell.textContent = `Player ${playerCount}`;
+    playerCell.textContent = `Player ${PlayerCount}`;
     playerCell.className = 'player-label';
 
     const nameCell = document.createElement('td');
     const nameInput = document.createElement('input');
     nameInput.type = 'text';
     nameInput.maxLength = 10;
-    nameInput.value = `Player ${playerCount}`;
+    nameInput.value = `Player ${PlayerCount}`;
     nameInput.className = 'player-name-input';
-    nameInput.setAttribute('aria-label', `Player ${playerCount} name`);
+    nameInput.setAttribute('aria-label', `Player ${PlayerCount} name`);
     nameCell.appendChild(nameInput);
 
     newRow.appendChild(playerCell);
@@ -53,8 +53,8 @@ function addPlayer() {
     // Add score table column
     const newTh = document.createElement('th');
     newTh.textContent = nameInput.value;
-    newTh.className = `player-header player-${playerCount}-header`;
-    newTh.dataset.playerId = playerCount;
+    newTh.className = `player-header player-${PlayerCount}-header`;
+    newTh.dataset.playerId = PlayerCount;
     scoreTableHead.appendChild(newTh);
 
     // Add cells to each row in score body
@@ -62,36 +62,36 @@ function addPlayer() {
     rows.forEach(row => {
         const newCell = document.createElement('td');
         newCell.textContent = '';
-        newCell.className = `player-score-cell player-${playerCount}-cell`;
-        newCell.dataset.playerId = playerCount;
+        newCell.className = `player-score-cell player-${PlayerCount}-cell`;
+        newCell.dataset.playerId = PlayerCount;
         row.appendChild(newCell);
     });
 
     // Live update header on name change
     nameInput.addEventListener('input', () => {
-        newTh.textContent = nameInput.value || `Player ${playerCount}`;
+        newTh.textContent = nameInput.value || `Player ${PlayerCount}`;
     });
 }
 
 // --- Delete Player ---
 function deleteNewestPlayer() {
-    if (gameStarted) {
+    if (gameState.gameStarted) {
         alert("You cannot delete players after the game has started!");
         return;
     }
 
-    if (playerCount <= 1) return; // Prevent deleting the last player
+    if (PlayerCount <= 1) return; // Prevent deleting the last player
 
-    const playerRow = document.getElementById(`player-${playerCount}`);
+    const playerRow = document.getElementById(`player-${PlayerCount}`);
     if (playerRow) playerRow.remove();
 
-    const header = scoreTableHead.querySelector(`.player-${playerCount}-header`);
+    const header = scoreTableHead.querySelector(`.player-${PlayerCount}-header`);
     if (header) header.remove();
 
-    const scoreCells = scoreTbody.querySelectorAll(`.player-${playerCount}-cell`);
+    const scoreCells = scoreTbody.querySelectorAll(`.player-${PlayerCount}-cell`);
     scoreCells.forEach(cell => cell.remove());
 
-    playerCount--; // Decrement player count
+    PlayerCount--; // Decrement player count
     updatePlayerCountDisplay();
 
     // Ensure at least one player remains
@@ -100,7 +100,7 @@ function deleteNewestPlayer() {
 
 // --- Ensure Minimum Players ---
 function ensureMinimumPlayers() {
-    if (playerCount === 0) {
+    if (PlayerCount === 0) {
         addPlayer(); // Add a player if none exist
     }
 }
@@ -112,7 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 addPlayerBtn.addEventListener('click', addPlayer);
 deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
-document.addEventListener('DOMContentLoaded', playerCount);
 
 // Exports
-export { addPlayer, deleteNewestPlayer, ensureMinimumPlayers, playerCount, gameStarted, scoreTbody };
+export function getPlayerCount() {
+    return PlayerCount;
+}
+export {addPlayer, deleteNewestPlayer, ensureMinimumPlayers, scoreTbody };

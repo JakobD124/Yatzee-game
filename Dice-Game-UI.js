@@ -1,6 +1,7 @@
 // --- dice-game-ui.js ---
-import { playerCount, ensureMinimumPlayers, addPlayer, deleteNewestPlayer } from './Player.js';
-import { moveToNextPlayer, checkIfGameFinished } from './Dice-Game-logic.js';
+import { ensureMinimumPlayers, addPlayer, deleteNewestPlayer, } from './PLayer.js';
+import { moveToNextPlayer,} from './Dice-Game-logic.js';
+
 // DOM Elements
 const rollDiceButton = document.getElementById('roll-btn');
 const nextPlayerButton = document.getElementById('next-player-btn');
@@ -13,37 +14,42 @@ const nextPlayerBtn = document.getElementById('next-player-btn');
 const playerNamesContainer = document.getElementById('player-names-container');
 const scoreTbody = document.getElementById('score-tbody');
 
-// Game State
-let currentPlayer = 1;
-let currentRound = 1;
-let rollsLeft = 3;
-let selectedDice = [];
-let gameStarted = false;
+// Game State (using an object instead of exporting variables)
+const gameState = {
+    currentPlayer: 1,
+    currentRound: 1,
+    rollsLeft: 3,
+    selectedDice: [],
+    gameStarted: false,
+};
+
 addPlayerBtn.disabled = false;
 deletePlayerBtn.disabled = false;
 
+// Remove the duplicate `setCurrentPlayer` function here!
+// Instead, just use the imported version from `Dice-Game-logic.js`
+
 // Event Listeners
-nextPlayerBtn.addEventListener('click', nextPlayer);
+nextPlayerBtn.addEventListener('click', moveToNextPlayer);
 
 // Utility
 const getRandomDiceNumber = () => Math.floor(Math.random() * 6) + 1;
 
-
 // Roll Dice
 function rollDice() {
-  if (!gameStarted) {
-    gameStarted = true;
+  if (!gameState.gameStarted) {
+    gameState.gameStarted = true;
     addPlayerBtn.disabled = true;
     deletePlayerBtn.disabled = true;
   }
 
-  if (rollsLeft === 0) {
-    alert(`Player ${currentPlayer} has no rolls left!`);
+  if (gameState.rollsLeft === 0) {
+    alert(`Player ${gameState.currentPlayer} has no rolls left!`);
     return;
   }
 
   diceImages.forEach((dice, index) => {
-    if (!selectedDice.includes(index)) {
+    if (!gameState.selectedDice.includes(index)) {
       const value = getRandomDiceNumber();
       dice.src = `Terninger/${value}.JPG`;
       dice.alt = `Dice showing ${value}`;
@@ -51,66 +57,52 @@ function rollDice() {
     }
   });
 
-  rollsLeft--;
+  gameState.rollsLeft--;
 }
 
+function submitScore() {
+  calculateScoreForCurrentRound();
+  moveToNextPlayer();
+}
 
 // Dice selection
 function toggleDiceSelection(e) {
   const dice = e.target;
   const index = [...diceImages].indexOf(dice);
 
-  if (selectedDice.includes(index)) {
-    selectedDice = selectedDice.filter(i => i !== index);
+  if (gameState.selectedDice.includes(index)) {
+    gameState.selectedDice = gameState.selectedDice.filter(i => i !== index);
     dice.style.border = 'none';
   } else {
-    selectedDice.push(index);
+    gameState.selectedDice.push(index);
     dice.style.border = '2px solid #0f7a0f';
   }
 }
 
-// Next Player
-function nextPlayer() {
-  currentPlayer++;
-  if (currentPlayer > playerNamesContainer.children.length) {
-    currentPlayer = 1;
-    currentRound++;
-    if (currentRound > scoreTbody.children.length / playerNamesContainer.children.length) {
-      currentRound = 1; // Reset rounds or handle end of game
-    }
-  }
-  console.log(`Current Player: ${currentPlayer}`); // Debugging log
-  rollsLeft = 3;
-  selectedDice = [];
-  highlightCurrentPlayerAndRound();
-}
-
-//highlight current player and round
+// Highlight current player and round
 function highlightCurrentPlayerAndRound() {
-  // Remove existing highlights
   const allCells = scoreTbody.querySelectorAll('td');
   const allRows = scoreTbody.querySelectorAll('tr');
 
   allCells.forEach(cell => cell.classList.remove('current-player-column'));
   allRows.forEach(row => row.classList.remove('current-round-row'));
 
-  // Highlight the current round
-  const roundRow = scoreTbody.querySelector(`tr:nth-child(${currentRound})`);
+  const roundRow = scoreTbody.querySelector(`tr:nth-child(${gameState.currentRound})`);
   if (roundRow) roundRow.classList.add('current-round-row');
 
-  // Highlight the current player's column
-  const columnCells = scoreTbody.querySelectorAll(`.player-${currentPlayer}-cell`);
+  const columnCells = scoreTbody.querySelectorAll(`.player-${gameState.currentPlayer}-cell`);
   columnCells.forEach(cell => cell.classList.add('current-player-column'));
 }
-// Reset
-function resetGame() {
-    gameStarted = false;
-    currentPlayer = 1;
-    currentRound = 1;
-    rollsLeft = 3;
-    selectedDice = [];
 
-    playerNamesContainer.innerHTML = ''; // Clear player names
+// Reset Game
+function resetGame() {
+    gameState.gameStarted = false;
+    gameState.currentPlayer = 1;
+    gameState.currentRound = 1;
+    gameState.rollsLeft = 3;
+    gameState.selectedDice = [];
+
+    playerNamesContainer.innerHTML = '';
     scoreTbody.querySelectorAll('td.player-score-cell').forEach(cell => (cell.textContent = ''));
 
     if (restartButton) restartButton.remove();
@@ -118,7 +110,6 @@ function resetGame() {
     addPlayerBtn.disabled = false;
     deletePlayerBtn.disabled = false;
 
-    // Ensure at least one player is added after reset
     ensureMinimumPlayers();
 
     diceImages.forEach((dice, index) => {
@@ -134,10 +125,12 @@ function resetGame() {
 
 // Event Listeners
 rollDiceButton.addEventListener('click', rollDice);
-nextPlayerButton.addEventListener('click', moveToNextPlayer);
 diceImages.forEach(dice => dice.addEventListener('click', toggleDiceSelection));
 document.addEventListener('DOMContentLoaded', highlightCurrentPlayerAndRound);
 addPlayerBtn.addEventListener('click', addPlayer);
 deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
 
-export { gameStarted, restartButton, resetGame, currentPlayer, currentRound, rollsLeft, selectedDice, diceImages };
+export { gameState, resetGame, diceImages }; // ✅ Removed `setCurrentPlayer` from exports
+export function setCurrentPlayer(newPlayer) {
+    gameState.currentPlayer = newPlayer;
+}
