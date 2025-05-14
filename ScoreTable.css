@@ -25,15 +25,14 @@
     font-weight: bold;
   }
 
-/* Highlight the active cell with a black border */
+/* Highlight the entire column for the current player */
 .current-player-column {
-  background-color: #ff0000;
-  border: 5px solid black; /* Add a black border */
-  box-sizing: border-box;
+  background-color: #f0e68c !important;
 }
 
-.current-player-column {
-  background-color: #d0f0d0 !important;
+.current-player-column td, .current-round-row td {
+  border: 5px solid black; /* Add a black border */
+  box-sizing: border-box;
 }
 
 .current-round-row {
