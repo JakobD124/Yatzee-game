@@ -134,7 +134,6 @@ function resetGame() {
 
 // Event Listeners
 rollDiceButton.addEventListener('click', rollDice);
-nextPlayerButton.addEventListener('click', moveToNextPlayer);
 diceImages.forEach(dice => dice.addEventListener('click', toggleDiceSelection));
 document.addEventListener('DOMContentLoaded', highlightCurrentPlayerAndRound);
 addPlayerBtn.addEventListener('click', addPlayer);
