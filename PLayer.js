@@ -115,4 +115,8 @@ deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
 document.addEventListener('DOMContentLoaded', playerCount);
 
 // Exports
-export { addPlayer, deleteNewestPlayer, ensureMinimumPlayers, playerCount, gameStarted, scoreTbody };
+function getPlayerCount() {
+    return playerCount;
+}
+
+export { addPlayer, deleteNewestPlayer, ensureMinimumPlayers, getPlayerCount, gameStarted, scoreTbody };

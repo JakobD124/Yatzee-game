@@ -54,6 +54,10 @@ function rollDice() {
   rollsLeft--;
 }
 
+function submitScore() {
+  calculateScoreForCurrentRound();
+  moveToNextPlayer();
+}
 
 // Dice selection
 function toggleDiceSelection(e) {
@@ -67,22 +71,6 @@ function toggleDiceSelection(e) {
     selectedDice.push(index);
     dice.style.border = '2px solid #0f7a0f';
   }
-}
-
-// Next Player
-function nextPlayer() {
-  currentPlayer++;
-  if (currentPlayer > playerNamesContainer.children.length) {
-    currentPlayer = 1;
-    currentRound++;
-    if (currentRound > scoreTbody.children.length / playerNamesContainer.children.length) {
-      currentRound = 1; // Reset rounds or handle end of game
-    }
-  }
-  console.log(`Current Player: ${currentPlayer}`); // Debugging log
-  rollsLeft = 3;
-  selectedDice = [];
-  highlightCurrentPlayerAndRound();
 }
 
 //highlight current player and round
