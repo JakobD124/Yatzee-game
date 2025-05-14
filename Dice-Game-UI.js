@@ -67,17 +67,20 @@ function toggleDiceSelection(e) {
 
 //highlight current player and round
 function highlightCurrentPlayerAndRound() {
+  // Remove existing highlights
   const allCells = scoreTbody.querySelectorAll('td');
   const allRows = scoreTbody.querySelectorAll('tr');
 
-  allCells.forEach(cell => cell.classList.remove('active-player-column'));
-  allRows.forEach(row => row.classList.remove('active-round-row'));
+  allCells.forEach(cell => cell.classList.remove('current-player-column'));
+  allRows.forEach(row => row.classList.remove('current-round-row'));
 
+  // Highlight the current round
   const roundRow = scoreTbody.querySelector(`tr:nth-child(${currentRound})`);
-  if (roundRow) roundRow.classList.add('active-round-row');
+  if (roundRow) roundRow.classList.add('current-round-row');
 
+  // Highlight the current player's column
   const columnCells = scoreTbody.querySelectorAll(`.player-${currentPlayer}-cell`);
-  columnCells.forEach(cell => cell.classList.add('active-player-column'));
+  columnCells.forEach(cell => cell.classList.add('current-player-column'));
 }
 
 // Reset
