@@ -197,27 +197,6 @@ function calculateLowerSectionScore(playerId, target) {
   updateTotalScore(playerId);
 }
 
-
-
-
-function checkIfGameFinished() {
-  const allCells = scoreTbody.querySelectorAll('td.player-score-cell');
-  const allFilled = [...allCells].every(cell => cell.textContent !== '');
-
-  if (allFilled) {
-    const playerCount = PlayerCount();
-    for (let pid = 1; pid <= playerCount; pid++) updateTotalScore(pid, true);
-    displayRestartButton();
-  }
-}
-
-function displayRestartButton() {
-  if (UI.restartButton) {
-    UI.restartButton.style.display = 'block';
-    UI.restartButton.addEventListener('click', UI.resetGame);
-  }
-}
-
 function highlightCurrentPlayerAndRound() {
   const allCells = scoreTbody.querySelectorAll('td');
   const allRows = scoreTbody.querySelectorAll('tr');
@@ -231,6 +210,34 @@ function highlightCurrentPlayerAndRound() {
   const columnCells = scoreTbody.querySelectorAll(`.player-${UI.gameState.currentPlayer}-cell`);
   columnCells.forEach(cell => cell.classList.add('current-player-column'));
 }
+
+
+function clearAllHighlighting() {
+  const allCells = scoreTbody.querySelectorAll('td');
+  const allRows = scoreTbody.querySelectorAll('tr');
+  allCells.forEach(cell => cell.classList.remove('current-player-column'));
+  allRows.forEach(row => row.classList.remove('current-round-row'));
+}
+
+function checkIfGameFinished() {
+  const allCells = scoreTbody.querySelectorAll('td.player-score-cell');
+  const allFilled = [...allCells].every(cell => cell.textContent !== '');
+
+  if (allFilled) {
+    const playerCount = getPlayerCount();
+    for (let pid = 1; pid <= playerCount; pid++) updateTotalScore(pid, true);
+    clearAllHighlighting();  // Clear highlighting when game is finished
+    displayRestartButton();
+  }
+}
+
+function displayRestartButton() {
+  if (UI.restartButton) {
+    UI.restartButton.style.display = 'block';
+    UI.restartButton.addEventListener('click', UI.resetGame);
+  }
+}
+
 
 function endGame() {
   alert('Game finished!');
