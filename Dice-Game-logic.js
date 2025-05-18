@@ -9,6 +9,7 @@ const ROW_ONE_PAIR = 9;
 const ROW_TOTAL_SCORE = 18;
 const scoreTbody = document.querySelector('#score-table tbody');
 
+
 // Function to move to the next player
 function moveToNextPlayer() {
 
@@ -45,6 +46,13 @@ function moveToNextPlayer() {
 
     highlightCurrentPlayerAndRound();
     checkIfGameFinished();
+    clearDiceSelection();
+}
+
+function clearDiceSelection() {
+  document.querySelectorAll('.dice').forEach(dice => {
+    dice.style.border = 'none';
+  });
 }
 
 // Calculate only the upper section score (1–6)
@@ -222,7 +230,7 @@ function highlightCurrentPlayerAndRound() {
   const roundRow = scoreTbody.querySelector(`tr:nth-child(${UI.gameState.currentRound})`);
   if (roundRow) roundRow.classList.add('current-round-row');
 
-  const columnCells = scoreTbody.querySelectorAll(`.player-${UI.gameState.currentPlayer}-cell`);
+  const columnCells = document.querySelectorAll(`.player-${UI.gameState.currentPlayer}-cell`);
   columnCells.forEach(cell => cell.classList.add('current-player-column'));
 }
 

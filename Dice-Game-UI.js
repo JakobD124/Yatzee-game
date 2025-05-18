@@ -14,6 +14,9 @@ const nextPlayerBtn = document.getElementById('next-player-btn');
 const playerNamesContainer = document.getElementById('player-names-container');
 const scoreTbody = document.getElementById('score-tbody');
 
+
+
+
 // Game State (using an object instead of exporting variables)
 const gameState = {
     currentPlayer: 1,
@@ -25,9 +28,6 @@ const gameState = {
 
 addPlayerBtn.disabled = false;
 deletePlayerBtn.disabled = false;
-
-// Remove the duplicate `setCurrentPlayer` function here!
-// Instead, just use the imported version from `Dice-Game-logic.js`
 
 // Event Listeners
 nextPlayerBtn.addEventListener('click', moveToNextPlayer);
