@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 addPlayerBtn.addEventListener('click', addPlayer);
 deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
+document.addEvebntListener('DOMContetnLoaded', ernsureMinimumPlayers);
 
 // Exports
 export function getPlayerCount() {

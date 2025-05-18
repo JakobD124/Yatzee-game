@@ -87,7 +87,7 @@ function updateSumAndBonus() {
     });
 
     scoreTbody.querySelector(`tr:nth-child(${ROW_SUM}) .player-${pid}-cell`).textContent = sum;
-    scoreTbody.querySelector(`tr:nth-child(${ROW_BONUS}) .player-${pid}-cell`).textContent = sum >= 45 ? 50 : 0;
+    scoreTbody.querySelector(`tr:nth-child(${ROW_BONUS}) .player-${pid}-cell`).textContent = sum >= 42 ? 50 : 0;
 
     updateTotalScore(pid);
   }
@@ -267,7 +267,7 @@ function endGame() {
 }
 
 
-document.getElementById("resetGame").addEventListener("click", function() {
+document.getElementById("restart-game-btn").addEventListener("click", function() {
     location.reload(); 
 });
 
