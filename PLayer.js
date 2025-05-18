@@ -26,7 +26,7 @@ function addPlayer() {
 
     if (PlayerCount >= 6) return; // Limit to 6 players
 
-    PlayerCount++; // Increment player count
+    PlayerCount++;
     updatePlayerCountDisplay();
 
     // Player name row
@@ -91,17 +91,15 @@ function deleteNewestPlayer() {
     const scoreCells = scoreTbody.querySelectorAll(`.player-${PlayerCount}-cell`);
     scoreCells.forEach(cell => cell.remove());
 
-    PlayerCount--; // Decrement player count
+    PlayerCount--;
     updatePlayerCountDisplay();
-
-    // Ensure at least one player remains
     ensureMinimumPlayers();
 }
 
 // --- Ensure Minimum Players ---
 function ensureMinimumPlayers() {
     if (PlayerCount === 0) {
-        addPlayer(); // Add a player if none exist
+        addPlayer();
     }
 }
 
@@ -112,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 addPlayerBtn.addEventListener('click', addPlayer);
 deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
+document.addEvebntListener('DOMContetnLoaded', ernsureMinimumPlayers);
 
 // Exports
 export function getPlayerCount() {

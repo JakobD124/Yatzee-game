@@ -9,14 +9,14 @@ const ROW_ONE_PAIR = 9;
 const ROW_TOTAL_SCORE = 18;
 const scoreTbody = document.querySelector('#score-table tbody');
 
+
 // Function to move to the next player
 function moveToNextPlayer() {
-  /*
+
   if  (UI.gameState.rollsLeft === 3) {
     alert(`Player ${UI.gameState.currentPlayer} has to roll atleast one time!`);
     return;
   }
-  */
     calculateScoreForCurrentRound();
 
     const PlayerCount = getPlayerCount();
@@ -46,6 +46,13 @@ function moveToNextPlayer() {
 
     highlightCurrentPlayerAndRound();
     checkIfGameFinished();
+    clearDiceSelection();
+}
+
+function clearDiceSelection() {
+  document.querySelectorAll('.dice').forEach(dice => {
+    dice.style.border = 'none';
+  });
 }
 
 // Calculate only the upper section score (1–6)
@@ -87,25 +94,10 @@ function updateSumAndBonus() {
     });
 
     scoreTbody.querySelector(`tr:nth-child(${ROW_SUM}) .player-${pid}-cell`).textContent = sum;
-    scoreTbody.querySelector(`tr:nth-child(${ROW_BONUS}) .player-${pid}-cell`).textContent = sum >= 45 ? 50 : 0;
+    scoreTbody.querySelector(`tr:nth-child(${ROW_BONUS}) .player-${pid}-cell`).textContent = sum >= 42 ? 50 : 0;
 
     updateTotalScore(pid);
   }
-}
-
-function updateTotalScore(playerId, gameFinished = false) {
-  const playerCells = scoreTbody.querySelectorAll(`.player-${playerId}-cell`);
-  let total = 0;
-
-  total += parseInt(scoreTbody.querySelector(`tr:nth-child(${ROW_SUM}) .player-${playerId}-cell`).textContent, 10) || 0;
-  total += parseInt(scoreTbody.querySelector(`tr:nth-child(${ROW_BONUS}) .player-${playerId}-cell`).textContent, 10) || 0;
-
-  playerCells.forEach((cell, i) => {
-    if (i >= 9 && i <= 16) total += parseInt(cell.textContent, 10) || 0;
-  });
-
-  const totalCell = scoreTbody.querySelector(`tr:nth-child(${ROW_TOTAL_SCORE}) .player-${playerId}-cell`);
-  if (totalCell) totalCell.textContent = gameFinished ? total : '';
 }
 
 // Updated calculateLowerSectionScore to match strict Yahtzee rules
@@ -197,6 +189,37 @@ function calculateLowerSectionScore(playerId, target) {
   updateTotalScore(playerId);
 }
 
+function updateTotalScore(playerId, gameFinished = false) {
+    const totalCell = document.querySelector(`tr:nth-child(${ROW_TOTAL_SCORE}) .player-${playerId}-cell`);
+    
+    if (!totalCell) {
+        console.warn(`Total score cell for Player ${playerId} not found.`);
+        return;
+    }
+
+    let total = 0;
+
+    // Sum upper section (1-6)
+    for (let i = 1; i <= 6; i++) {
+        const cell = document.querySelector(`tr:nth-child(${i}) .player-${playerId}-cell`);
+        total += cell ? parseInt(cell.textContent, 10) || 0 : 0;
+    }
+
+    // Add bonus
+    const bonusCell = document.querySelector(`tr:nth-child(${ROW_BONUS}) .player-${playerId}-cell`);
+    total += bonusCell ? parseInt(bonusCell.textContent, 10) || 0 : 0;
+
+    // Sum lower section (9-17)
+    for (let i = 9; i <= 17; i++) {
+        const cell = document.querySelector(`tr:nth-child(${i}) .player-${playerId}-cell`);
+        total += cell ? parseInt(cell.textContent, 10) || 0 : 0;
+    }
+
+    // Update total score cell
+    totalCell.textContent = gameFinished ? total : '';
+}
+
+
 function highlightCurrentPlayerAndRound() {
   const allCells = scoreTbody.querySelectorAll('td');
   const allRows = scoreTbody.querySelectorAll('tr');
@@ -207,17 +230,16 @@ function highlightCurrentPlayerAndRound() {
   const roundRow = scoreTbody.querySelector(`tr:nth-child(${UI.gameState.currentRound})`);
   if (roundRow) roundRow.classList.add('current-round-row');
 
-  const columnCells = scoreTbody.querySelectorAll(`.player-${UI.gameState.currentPlayer}-cell`);
+  const columnCells = document.querySelectorAll(`.player-${UI.gameState.currentPlayer}-cell`);
   columnCells.forEach(cell => cell.classList.add('current-player-column'));
 }
 
 
 function clearAllHighlighting() {
-  const allCells = scoreTbody.querySelectorAll('td');
-  const allRows = scoreTbody.querySelectorAll('tr');
-  allCells.forEach(cell => cell.classList.remove('current-player-column'));
-  allRows.forEach(row => row.classList.remove('current-round-row'));
+    document.querySelectorAll('.highlight, .current-player-column, .current-round-row')
+        .forEach(el => el.classList.remove('highlight', 'current-player-column', 'current-round-row'));
 }
+
 
 function checkIfGameFinished() {
   const allCells = scoreTbody.querySelectorAll('td.player-score-cell');
@@ -226,7 +248,7 @@ function checkIfGameFinished() {
   if (allFilled) {
     const playerCount = getPlayerCount();
     for (let pid = 1; pid <= playerCount; pid++) updateTotalScore(pid, true);
-    clearAllHighlighting();  // Clear highlighting when game is finished
+    clearAllHighlighting();
     displayRestartButton();
   }
 }
@@ -240,12 +262,19 @@ function displayRestartButton() {
 
 
 function endGame() {
+    const playerCount = getPlayerCount();
+    
+    for (let pid = 1; pid <= playerCount; pid++) {
+        updateTotalScore(pid, true);
+    }
+
     alert('Game finished!');
-    document.getElementById('restart-game-btn').style.display = 'block'; // Show restart button
-    clearAllHighlighting();  // Clear all UI highlights
+    document.getElementById('restart-game-btn').style.display = 'block';
+    clearAllHighlighting();
 }
 
-document.getElementById("resetGame").addEventListener("click", function() {
+
+document.getElementById("restart-game-btn").addEventListener("click", function() {
     location.reload(); 
 });
 
