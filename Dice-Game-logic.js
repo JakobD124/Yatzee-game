@@ -93,21 +93,6 @@ function updateSumAndBonus() {
   }
 }
 
-function updateTotalScore(playerId, gameFinished = false) {
-  const playerCells = scoreTbody.querySelectorAll(`.player-${playerId}-cell`);
-  let total = 0;
-
-  total += parseInt(scoreTbody.querySelector(`tr:nth-child(${ROW_SUM}) .player-${playerId}-cell`).textContent, 10) || 0;
-  total += parseInt(scoreTbody.querySelector(`tr:nth-child(${ROW_BONUS}) .player-${playerId}-cell`).textContent, 10) || 0;
-
-  playerCells.forEach((cell, i) => {
-    if (i >= 9 && i <= 16) total += parseInt(cell.textContent, 10) || 0;
-  });
-
-  const totalCell = scoreTbody.querySelector(`tr:nth-child(${ROW_TOTAL_SCORE}) .player-${playerId}-cell`);
-  if (totalCell) totalCell.textContent = gameFinished ? total : '';
-}
-
 // Updated calculateLowerSectionScore to match strict Yahtzee rules
 function calculateLowerSectionScore(playerId, target) {
   // Gather current dice values
@@ -197,6 +182,37 @@ function calculateLowerSectionScore(playerId, target) {
   updateTotalScore(playerId);
 }
 
+function updateTotalScore(playerId, gameFinished = false) {
+    const totalCell = document.querySelector(`tr:nth-child(${ROW_TOTAL_SCORE}) .player-${playerId}-cell`);
+    
+    if (!totalCell) {
+        console.warn(`Total score cell for Player ${playerId} not found.`);
+        return;
+    }
+
+    let total = 0;
+
+    // Sum upper section (1-6)
+    for (let i = 1; i <= 6; i++) {
+        const cell = document.querySelector(`tr:nth-child(${i}) .player-${playerId}-cell`);
+        total += cell ? parseInt(cell.textContent, 10) || 0 : 0;
+    }
+
+    // Add bonus
+    const bonusCell = document.querySelector(`tr:nth-child(${ROW_BONUS}) .player-${playerId}-cell`);
+    total += bonusCell ? parseInt(bonusCell.textContent, 10) || 0 : 0;
+
+    // Sum lower section (9-17)
+    for (let i = 9; i <= 17; i++) {
+        const cell = document.querySelector(`tr:nth-child(${i}) .player-${playerId}-cell`);
+        total += cell ? parseInt(cell.textContent, 10) || 0 : 0;
+    }
+
+    // Update total score cell
+    totalCell.textContent = gameFinished ? total : '';
+}
+
+
 function highlightCurrentPlayerAndRound() {
   const allCells = scoreTbody.querySelectorAll('td');
   const allRows = scoreTbody.querySelectorAll('tr');
@@ -213,11 +229,10 @@ function highlightCurrentPlayerAndRound() {
 
 
 function clearAllHighlighting() {
-  const allCells = scoreTbody.querySelectorAll('td');
-  const allRows = scoreTbody.querySelectorAll('tr');
-  allCells.forEach(cell => cell.classList.remove('current-player-column'));
-  allRows.forEach(row => row.classList.remove('current-round-row'));
+    document.querySelectorAll('.highlight, .current-player-column, .current-round-row')
+        .forEach(el => el.classList.remove('highlight', 'current-player-column', 'current-round-row'));
 }
+
 
 function checkIfGameFinished() {
   const allCells = scoreTbody.querySelectorAll('td.player-score-cell');
@@ -226,7 +241,7 @@ function checkIfGameFinished() {
   if (allFilled) {
     const playerCount = getPlayerCount();
     for (let pid = 1; pid <= playerCount; pid++) updateTotalScore(pid, true);
-    clearAllHighlighting();  // Clear highlighting when game is finished
+    clearAllHighlighting();
     displayRestartButton();
   }
 }
@@ -240,10 +255,17 @@ function displayRestartButton() {
 
 
 function endGame() {
+    const playerCount = getPlayerCount();
+    
+    for (let pid = 1; pid <= playerCount; pid++) {
+        updateTotalScore(pid, true); // Ensure scores are updated
+    }
+
     alert('Game finished!');
-    document.getElementById('restart-game-btn').style.display = 'block'; // Show restart button
-    clearAllHighlighting();  // Clear all UI highlights
+    document.getElementById('restart-game-btn').style.display = 'block';
+    clearAllHighlighting();
 }
+
 
 document.getElementById("resetGame").addEventListener("click", function() {
     location.reload(); 
