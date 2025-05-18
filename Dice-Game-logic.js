@@ -240,8 +240,14 @@ function displayRestartButton() {
 
 
 function endGame() {
-  alert('Game finished!');
+    alert('Game finished!');
+    document.getElementById('restart-game-btn').style.display = 'block'; // Show restart button
+    clearAllHighlighting();  // Clear all UI highlights
 }
+
+document.getElementById("resetGame").addEventListener("click", function() {
+    location.reload(); 
+});
 
 // Exports
 export {

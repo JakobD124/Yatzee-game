@@ -1,6 +1,6 @@
 // --- dice-game-ui.js ---
 import { ensureMinimumPlayers, addPlayer, deleteNewestPlayer, } from './PLayer.js';
-import { moveToNextPlayer,} from './Dice-Game-logic.js';
+import { moveToNextPlayer, highlightCurrentPlayerAndRound} from './Dice-Game-logic.js';
 
 // DOM Elements
 const rollDiceButton = document.getElementById('roll-btn');
@@ -79,21 +79,6 @@ function toggleDiceSelection(e) {
   }
 }
 
-// Highlight current player and round
-function highlightCurrentPlayerAndRound() {
-  const allCells = scoreTbody.querySelectorAll('td');
-  const allRows = scoreTbody.querySelectorAll('tr');
-
-  allCells.forEach(cell => cell.classList.remove('current-player-column'));
-  allRows.forEach(row => row.classList.remove('current-round-row'));
-
-  const roundRow = scoreTbody.querySelector(`tr:nth-child(${gameState.currentRound})`);
-  if (roundRow) roundRow.classList.add('current-round-row');
-
-  const columnCells = scoreTbody.querySelectorAll(`.player-${gameState.currentPlayer}-cell`);
-  columnCells.forEach(cell => cell.classList.add('current-player-column'));
-}
-
 // Reset Game
 function resetGame() {
     gameState.gameStarted = false;
@@ -129,8 +114,9 @@ diceImages.forEach(dice => dice.addEventListener('click', toggleDiceSelection));
 document.addEventListener('DOMContentLoaded', highlightCurrentPlayerAndRound);
 addPlayerBtn.addEventListener('click', addPlayer);
 deletePlayerBtn.addEventListener('click', deleteNewestPlayer);
+restartButton.addEventListener('click', resetGame);
 
-export { gameState, resetGame, diceImages }; // ✅ Removed `setCurrentPlayer` from exports
+export { gameState, resetGame, diceImages, highlightCurrentPlayerAndRound};
 export function setCurrentPlayer(newPlayer) {
     gameState.currentPlayer = newPlayer;
 }
