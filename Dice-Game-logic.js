@@ -11,12 +11,11 @@ const scoreTbody = document.querySelector('#score-table tbody');
 
 // Function to move to the next player
 function moveToNextPlayer() {
-  /*
+
   if  (UI.gameState.rollsLeft === 3) {
     alert(`Player ${UI.gameState.currentPlayer} has to roll atleast one time!`);
     return;
   }
-  */
     calculateScoreForCurrentRound();
 
     const PlayerCount = getPlayerCount();
@@ -258,7 +257,7 @@ function endGame() {
     const playerCount = getPlayerCount();
     
     for (let pid = 1; pid <= playerCount; pid++) {
-        updateTotalScore(pid, true); // Ensure scores are updated
+        updateTotalScore(pid, true);
     }
 
     alert('Game finished!');
