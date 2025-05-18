@@ -32,6 +32,7 @@ deletePlayerBtn.disabled = false;
 // Event Listeners
 nextPlayerBtn.addEventListener('click', moveToNextPlayer);
 
+
 // Utility
 const getRandomDiceNumber = () => Math.floor(Math.random() * 6) + 1;
 
